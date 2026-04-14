@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J MOVIES UG - Premium Streaming Service</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #c41e3a;
+            --secondary: #0a0a0a;
+            --accent: #f5c518;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --success: #28a745;
+            --warning: #ffc107;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: var(--light);
+            min-height: 100vh;
+            padding-bottom: 50px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: rgba(10, 10, 10, 0.9);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            color: var(--accent);
+            font-size: 28px;
+        }
+        
+        .logo h1 {
+            font-size: 26px;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover, nav a.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(196, 30, 58, 0.3);
+        }
+        
+        /* Login Page */
+        .login-container {
+            max-width: 500px;
+            margin: 80px auto;
+            background: rgba(25, 25, 25, 0.8);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--accent), var(--primary));
+        }
+        
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            color: var(--accent);
+            position: relative;
+        }
+        
+        .login-container h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 16px;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .terms input {
+            margin-top: 5px;
+        }
+        
+        .terms label {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        /* Admin Panel */
+        .admin-panel {
+            display: none;
+            background: rgba(25, 25, 25, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .admin-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--accent), var(--primary));
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .admin-header h2 {
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .admin-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .admin-section {
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .admin-section h3 {
+            margin-bottom: 20px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .movie-form {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .upload-btn {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        
+        .upload-btn input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        /* Content Layout */
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .main-content {
+            background: rgba(25, 25, 25, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--accent), var(--primary));
+        }
+        
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section-title h2 {
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 25px;
+        }
+        
+        .movie-card {
+            background: rgba(40, 40, 40, 0.7);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .movie-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(196, 30, 58, 0.4);
+        }
+        
+        .movie-poster {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(45deg, #333, #555);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: var(--accent);
+        }
+        
+        .movie-info {
+            padding: 15px;
+        }
+        
+        .movie-info h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .sidebar {
+            background: rgba(25, 25, 25, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--accent), var(--primary));
+        }
+        
+        .sidebar-item {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .sidebar-item:last-child {
+            border-bottom: none;
+        }
+        
+        .sidebar-item h3 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .help-card {
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .help-card i {
+            font-size: 40px;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+        
+        .help-card button {
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        /* Motivational Quote Section */
+        .quote-container {
+            background: linear-gradient(135deg, rgba(196, 30, 58, 0.2), rgba(245, 197, 24, 0.2));
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quote-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--accent), var(--primary));
+        }
+        
+        .quote-text {
+            font-size: 22px;
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--light);
+            position: relative;
+            padding: 0 20px;
+        }
+        
+        .quote-author {
+            font-size: 18px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        .app-footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: var(--gray);
+            font-size: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            .admin-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .quote-text {
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            
+            .movies-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .login-container {
+                margin: 30px 10px;
+                padding: 25px;
+            }
+            
+            .quote-text {
+                font-size: 16px;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-film"></i>
+                <h1>J MOVIES UG</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">Movies</a></li>
+                    <li><a href="#">TV Shows</a></li>
+                    <li><a href="#">My List</a></li>
+                </ul>
+            </nav>
+            <div class="user-actions">
+                <button class="btn btn-outline" id="admin-btn">
+                    <i class="fas fa-user-lock"></i> Admin
+                </button>
+                <button class="btn btn-primary" id="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" id="main-content">
+        <!-- Quote Section -->
+        <div class="quote-container">
+            <div class="quote-text" id="quote-text">
+                "The only way to do great work is to love what you do."
+            </div>
+            <div class="quote-author" id="quote-author">
+                - Steve Jobs
+            </div>
+        </div>
+
+        <!-- Login Section -->
+        <div id="login-section" class="login-container">
+            <h2>Sign Up for J MOVIES UG</h2>
+            <form id="signup-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" class="form-control" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" class="form-control" placeholder="Enter your age" min="13" max="120" required>
+                </div>
+                <div class="form-group">
+                    <label for="subscription">Subscription Plan</label>
+                    <select id="subscription" class="form-control" required>
+                        <option value="">Select a plan</option>
+                        <option value="free">Free Trial (7 days) - UGX 0</option>
+                        <option value="weekly">Weekly Plan - UGX 5,000</option>
+                        <option value="monthly">Monthly Plan - UGX 20,000</option>
+                    </select>
+                </div>
+                <div class="terms">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">I agree to the terms and conditions and have read the privacy policy</label>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-user-plus"></i> Sign Up for Free Trial
+                </button>
+            </form>
+            <div style="margin-top: 20px; text-align: center; color: var(--gray); font-size: 14px;">
+                <p>One-time signup per device/email. After free trial, subscription will be required.</p>
+            </div>
+        </div>
+
+        <!-- Admin Panel -->
+        <div id="admin-panel" class="admin-panel">
+            <div class="admin-header">
+                <h2><i class="fas fa-user-cog"></i> Admin Panel - frank junix</h2>
+                <button class="btn btn-outline" id="back-to-main">
+                    <i class="fas fa-arrow-left"></i> Back to App
+                </button>
+            </div>
+            
+            <div class="admin-content">
+                <div class="admin-section">
+                    <h3><i class="fas fa-film"></i> Add New Movie</h3>
+                    <form class="movie-form">
+                        <div class="form-group">
+                            <label for="movie-title">Movie Title</label>
+                            <input type="text" id="movie-title" class="form-control" placeholder="Enter movie title">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="movie-year">Year</label>
+                                <input type="number" id="movie-year" class="form-control" placeholder="2023">
+                            </div>
+                            <div class="form-group">
+                                <label for="movie-duration">Duration (min)</label>
+                                <input type="number" id="movie-duration" class="form-control" placeholder="120">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="movie-description">Description</label>
+                            <textarea id="movie-description" class="form-control" placeholder="Enter movie description" rows="3"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="movie-genre">Genre</label>
+                                <input type="text" id="movie-genre" class="form-control" placeholder="Action, Drama">
+                            </div>
+                            <div class="form-group">
+                                <label for="movie-rating">Rating</label>
+                                <input type="number" id="movie-rating" class="form-control" placeholder="8.5" min="0" max="10" step="0.1">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="movie-file">Upload Movie File</label>
+                            <div class="upload-btn">
+                                <button type="button" class="btn btn-outline">
+                                    <i class="fas fa-upload"></i> Choose File
+                                </button>
+                                <input type="file" id="movie-file">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus-circle"></i> Add Movie
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="admin-section">
+                    <h3><i class="fas fa-users"></i> User Management</h3>
+                    <div class="user-list">
+                        <div class="sidebar-item">
+                            <h3><i class="fas fa-user"></i> User Account</h3>
+                            <p>Name: John Doe</p>
+                            <p>Email: john@example.com</p>
+                            <p>Plan: Monthly Trial</p>
+                            <p>Status: Active</p>
+                            <p>Expiry: 2023-08-30</p>
+                        </div>
+                        <div class="sidebar-item">
+                            <h3><i class="fas fa-user"></i> User Account</h3>
+                            <p>Name: Jane Smith</p>
+                            <p>Email: jane@example.com</p>
+                            <p>Plan: Free Trial</p>
+                            <p>Status: Active</p>
+                            <p>Expiry: 2023-07-25</p>
+                        </div>
+                    </div>
+                    <h3 style="margin-top: 30px;"><i class="fas fa-chart-line"></i> Statistics</h3>
+                    <div class="sidebar-item">
+                        <p><i class="fas fa-users"></i> Total Users: 1,243</p>
+                        <p><i class="fas fa-film"></i> Movies Uploaded: 248</p>
+                        <p><i class="fas fa-gem"></i> Premium Subscribers: 876</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard -->
+        <div id="dashboard" class="dashboard-content" style="display: none;">
+            <div class="main-content">
+                <div class="section-title">
+                    <h2><i class="fas fa-fire"></i> Featured Movies</h2>
+                    <div>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-filter"></i> Filter
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="movies-grid">
+                    <!-- Movie cards will be generated here -->
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-item">
+                    <h3><i class="fas fa-download"></i> Download Options</h3>
+                    <p>Download movies in high quality:</p>
+                    <div style="margin-top: 15px;">
+                        <button class="btn btn-outline" style="width: 100%; margin-bottom: 10px;">
+                            <i class="fas fa-download"></i> Download HD (1080p)
+                        </button>
+                        <button class="btn btn-outline" style="width: 100%; margin-bottom: 10px;">
+                            <i class="fas fa-download"></i> Download UHD (4K)
+                        </button>
+                        <button class="btn btn-outline" style="width: 100%;">
+                            <i class="fas fa-download"></i> Download 8K (Ultra)
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="sidebar-item">
+                    <h3><i class="fas fa-headset"></i> Help Center</h3>
+                    <div class="help-card">
+                        <i class="fab fa-whatsapp"></i>
+                        <p>Need Help? Contact us on WhatsApp</p>
+                        <button class="btn btn-primary">
+                            <i class="fab fa-whatsapp"></i> Chat Now
+                        </button>
+                    </div>
+                    <div class="help-card" style="margin-top: 20px;">
+                        <i class="fas fa-phone-alt"></i>
+                        <p>Call directly for support</p>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-phone"></i> Call Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- App Footer -->
+        <div class="app-footer">
+            <p>App by @fjm technologies ug</p>
+            <p>© 2023 J MOVIES UG. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const loginSection = document.getElementById('login-section');
+        const adminPanel = document.getElementById('admin-panel');
+        const dashboard = document.getElementById('dashboard');
+        const loginBtn = document.getElementById('login-btn');
+        const adminBtn = document.getElementById('admin-btn');
+        const backToMain = document.getElementById('back-to-main');
+        const signupForm = document.getElementById('signup-form');
+        const quoteText = document.getElementById('quote-text');
+        const quoteAuthor = document.getElementById('quote-author');
+        const movieCards = document.querySelector('.movies-grid');
+
+        // Motivational quotes
+        const quotes = [
+            {
+                text: "The only way to do great work is to love what you do.",
+                author: "Steve Jobs"
+            },
+            {
+                text: "In the end, we will remember not the words of our enemies, but the silence of our friends.",
+                author: "Martin Luther King Jr."
+            },
+            {
+                text: "Life is what happens to you while you're busy making other plans.",
+                author: "John Lennon"
+            },
+            {
+                text: "The future belongs to those who believe in the beauty of their dreams.",
+                author: "Eleanor Roosevelt"
+            },
+            {
+                text: "It does not matter how slowly you go as long as you do not stop.",
+                author: "Confucius"
+            },
+            {
+                text: "Success is not final, failure is not fatal: It is the courage to continue that counts.",
+                author: "Winston Churchill"
+            },
+            {
+                text: "The only impossible journey is the one you never begin.",
+                author: "Tony Robbins"
+            },
+            {
+                text: "Don't watch the clock; do what it does. Keep going.",
+                author: "Sam Levenson"
+            }
+        ];
+
+        // Sample movies data
+        const movies = [
+            { id: 1, title: "The Quantum Paradox", year: 2023, duration: 132, rating: 8.7, genre: "Sci-fi, Action" },
+            { id: 2, title: "Midnight in Paris", year: 2022, duration: 115, rating: 7.9, genre: "Romance, Drama" },
+            { id: 3, title: "Crimson Sky", year: 2023, duration: 145, rating: 8.2, genre: "Action, Thriller" },
+            { id: 4, title: "Echoes of Time", year: 2021, duration: 128, rating: 7.5, genre: "Drama, Mystery" },
+            { id: 5, title: "Digital Dreams", year: 2023, duration: 138, rating: 8.9, genre: "Sci-fi, Romance" },
+            { id: 6, title: "Silent Witnesses", year: 2022, duration: 119, rating: 7.8, genre: "Thriller, Crime" },
+            { id: 7, title: "Ocean's Last Stand", year: 2023, duration: 140, rating: 8.1, genre: "Adventure, Action" },
+            { id: 8, title: "The Forgotten", year: 2021, duration: 131, rating: 7.4, genre: "Horror, Mystery" }
+        ];
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Populate sample movies
+            displayMovies(movies);
+            
+            // Set initial quote
+            updateQuote();
+            
+            // Change quote every 10 seconds
+            setInterval(updateQuote, 10000);
+            
+            // Handle login form submission
+            signupForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const age = document.getElementById('age').value;
+                const subscription = document.getElementById('subscription').value;
+                
+                // Simple validation
+                if (!name || !email || !phone || !age || !subscription) {
+                    alert('Please fill all fields');
+                    return;
+                }
+                
+                // Show confirmation and redirect to dashboard
+                alert(`Welcome ${name}! Your free trial has been activated. You have access to our premium content for 7 days.`);
+                
+                // Hide login form and show dashboard
+                loginSection.style.display = 'none';
+                dashboard.style.display = 'grid';
+            });
+            
+            // Admin panel access
+            adminBtn.addEventListener('click', function() {
+                const passcode = prompt("Enter admin passcode:");
+                if (passcode === "frank junix") {
+                    loginSection.style.display = 'none';
+                    adminPanel.style.display = 'block';
+                    dashboard.style.display = 'none';
+                } else {
+                    alert("Invalid passcode!");
+                }
+            });
+            
+            // Back to main
+            backToMain.addEventListener('click', function() {
+                adminPanel.style.display = 'none';
+                loginSection.style.display = 'block';
+            });
+            
+            // WhatsApp and Call buttons
+            document.querySelectorAll('.help-card button').forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.textContent.includes('Chat Now')) {
+                        window.open('https://wa.me/256754358524', '_blank');
+                    } else if (this.textContent.includes('Call Now')) {
+                        window.open('tel:+256754358524', '_blank');
+                    }
+                });
+            });
+        });
+
+        // Update motivational quote
+        function updateQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const quote = quotes[randomIndex];
+            
+            quoteText.textContent = `"${quote.text}"`;
+            quoteAuthor.textContent = `- ${quote.author}`;
+            
+            // Add fade animation
+            quoteText.classList.remove('animate');
+            quoteAuthor.classList.remove('animate');
+            
+            setTimeout(() => {
+                quoteText.classList.add('animate');
+                quoteAuthor.classList.add('animate');
+            }, 100);
+        }
+
+        // Display movies in grid
+        function displayMovies(moviesList) {
+            movieCards.innerHTML = '';
+            
+            moviesList.forEach(movie => {
+                const movieCard = document.createElement('div');
+                movieCard.className = 'movie-card animate';
+                
+                movieCard.innerHTML = `
+                    <div class="movie-poster">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <div class="movie-info">
+                        <h3>${movie.title}</h3>
+                        <div class="movie-meta">
+                            <span>${movie.year}</span>
+                            <span>${movie.duration} min</span>
+                        </div>
+                        <div class="movie-meta" style="margin-top: 5px;">
+                            <span>${movie.genre}</span>
+                            <span><i class="fas fa-star"></i> ${movie.rating}</span>
+                        </div>
+                    </div>
+                `;
+                
+                movieCards.appendChild(movieCard);
+            });
+        }
+
+        // Simulate movie upload for demo
+        document.querySelector('.movie-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('movie-title').value;
+            if (title) {
+                alert(`Movie "${title}" uploaded successfully!`);
+                document.getElementById('movie-title').value = '';
+                document.getElementById('movie-year').value = '';
+                document.getElementById('movie-duration').value = '';
+                document.getElementById('movie-description').value = '';
+                document.getElementById('movie-genre').value = '';
+                document.getElementById('movie-rating').value = '';
+                
+                // In a real app, we would add the new movie to the list
+                // For demo, we'll just show an alert
+            }
+        });
+    </script>
+</body>
+</html>
